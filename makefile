@@ -20,16 +20,10 @@ jupyter:
 		--allow-root \
 		--port $(JUPYTER_PORT) \
 		--ip 0.0.0.0 \
+		--no-browser \
 		--NotebookApp.password=$(shell $(RUN) \
 			python -c \
 			"from IPython.lib import passwd; print(passwd('$(JUPYTER_PASSWORD)'))")
-
-jupyter-docker: IMAGE=$(DOCKER_REGISTRY)/kupu-tokau/jupyter
-jupyter-docker:
-	rm -f $@ && \
-	docker build --tag $(IMAGE):$(GIT_TAG) -f Dockerfile.jupyter . && \
-	docker tag $(IMAGE):$(GIT_TAG) $(IMAGE):latest && \
-	touch .$@
 
 .PHONY: docker
 docker:
